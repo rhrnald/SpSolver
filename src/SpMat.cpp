@@ -38,9 +38,9 @@ void SpMat::ReadFromFile(char const* str) {
 
     py::object vec = file["R"]; 
     cout << "load vec done " << endl;
-    csrVal=std::vector<double>();
+    bVal=std::vector<double>();
     for(auto d : vec)
-      for(auto e: d) csrVal.push_back(e.cast<double>());
+      for(auto e: d) bVal.push_back(e.cast<double>());
     cout << "load vec done " << endl;
     return;
 }

@@ -1,4 +1,4 @@
-#include "slu_ddefs.h"
+//#include "slu_ddefs.h"
 #include <iostream>
 #include <ctime>
 #include "CudaSolver.h"
@@ -7,7 +7,7 @@
 using namespace std;
 
 
-void f(double *a, int *asub, int *xa, int n, int m, int nnz)
+void SuperLUSolver(double *a, int *asub, int *xa, int n, int m, int nnz)
 {
     /*
      * Purpose
@@ -18,14 +18,14 @@ void f(double *a, int *asub, int *xa, int n, int m, int nnz)
      * matrix data structures used by SuperLU.
      *
      */
-    SuperMatrix A, L, U, B;
-    double *rhs;
+//    SuperMatrix A, L, U, B;
+//    double *rhs;
     int *perm_r; /* row permutations from partial pivoting */
     int *perm_c; /* column permutation vector */
     int nrhs, info, i, permc_spec;
-    superlu_options_t options;
-    SuperLUStat_t stat;
-    printf("START\n"); fflush(stdout);
+//    superlu_options_t options;
+//    SuperLUStat_t stat;
+//    printf("START\n"); fflush(stdout);
     /* Initialize matrix A. */
     /*
     m = n = 5;
@@ -73,47 +73,47 @@ void f(double *a, int *asub, int *xa, int n, int m, int nnz)
     xa[4] = 10;
     xa[5] = 12;*/
     /* Create matrix A in the format expected by SuperLU. */
-    dCreate_CompCol_Matrix(&A, m, n, nnz, a, asub, xa, SLU_NC, SLU_D, SLU_GE);
-    printf("Create compcol matrix done\n"); fflush(stdout);
+//    dCreate_CompCol_Matrix(&A, m, n, nnz, a, asub, xa, SLU_NC, SLU_D, SLU_GE);
+//    printf("Create compcol matrix done\n"); fflush(stdout);
     /* Create right-hand side matrix B. */
-    nrhs = 1;
-    if (!(rhs = doubleMalloc(m * nrhs)))
-        ABORT("Malloc fails for rhs[].");
-    for (i = 0; i < m; ++i)
-        rhs[i] = 1.0;
-    dCreate_Dense_Matrix(&B, m, nrhs, rhs, m, SLU_DN, SLU_D, SLU_GE);
-    printf("Create dense done\n"); fflush(stdout);
-    if (!(perm_r = intMalloc(m)))
-        ABORT("Malloc fails for perm_r[].");
-    if (!(perm_c = intMalloc(n)))
-        ABORT("Malloc fails for perm_c[].");
+//    nrhs = 1;
+//    if (!(rhs = doubleMalloc(m * nrhs)))
+//       ABORT("Malloc fails for rhs[].");
+//    for (i = 0; i < m; ++i)
+//        rhs[i] = 1.0;
+//    dCreate_Dense_Matrix(&B, m, nrhs, rhs, m, SLU_DN, SLU_D, SLU_GE);
+//    printf("Create dense done\n"); fflush(stdout);
+//    if (!(perm_r = intMalloc(m)))
+//        ABORT("Malloc fails for perm_r[].");
+//    if (!(perm_c = intMalloc(n)))
+//        ABORT("Malloc fails for perm_c[].");
     /* Set the default input options. */
-    set_default_options(&options);
-    options.ColPerm = NATURAL;
+//    set_default_options(&options);
+//    options.ColPerm = NATURAL;
     /* Initialize the statistics variables. */
-    StatInit(&stat);
+//    StatInit(&stat);
     /* Solve the linear system. */
-    printf("Dgssv start\n"); fflush(stdout);
-    dgssv(&options, &A, perm_c, perm_r, &L, &U, &B, &stat, &info);
-    printf("Dgssv done\n"); fflush(stdout);
-    return;
+//    printf("Dgssv start\n"); fflush(stdout);
+//    dgssv(&options, &A, perm_c, perm_r, &L, &U, &B, &stat, &info);
+//    printf("Dgssv done\n"); fflush(stdout);
+//    return;
     //dPrint_CompCol_Matrix("A", &A);
     //dPrint_CompCol_Matrix("U", &U);
     //dPrint_SuperNode_Matrix("L", &L);
     //print_int_vec("\nperm_r", m, perm_r);
     /* De-allocate storage */
-    SUPERLU_FREE(rhs);
-    SUPERLU_FREE(perm_r);
-    SUPERLU_FREE(perm_c);
-    Destroy_CompCol_Matrix(&A);
-    Destroy_SuperMatrix_Store(&B);
-    Destroy_SuperNode_Matrix(&L);
-    Destroy_CompCol_Matrix(&U);
-    StatFree(&stat);
+//    SUPERLU_FREE(rhs);
+//    SUPERLU_FREE(perm_r);
+//    SUPERLU_FREE(perm_c);
+//    Destroy_CompCol_Matrix(&A);
+//    Destroy_SuperMatrix_Store(&B);
+//    Destroy_SuperNode_Matrix(&L);
+//    Destroy_CompCol_Matrix(&U);
+//    StatFree(&stat);
 }
 
 int main(int argc, char **argv){
-    SpMat A("/home/n5/chaewon/mat/matrix_2037609.mat");
+    SpMat A("../matrix_2037609.mat");
     
     double* b = A.bVal.data();
     double *x = (double*)malloc(sizeof(double)*A.n);

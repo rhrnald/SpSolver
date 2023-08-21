@@ -1,4 +1,5 @@
 #include "MKLSolver.h"
+
 //#include "oneapi/mkl.hpp"
 #include "mkl.h"
 
@@ -17,7 +18,7 @@ int mklPardiso(SpMat &A, double* b, double* x) {
   MKL_INT iparm[64];
   for(int i=0; i<64; i++) pt[i]=0, iparm[i]=0;
   printf("START!!!\n"); fflush(stdout);
-  //pardisoinit(pt, &mtype, iparm);
+  pardisoinit(pt, &mtype, iparm);
   set_iparm(iparm);
 
   std::vector<MKL_INT> RowPtr(A.csrRowPtr.size());
@@ -26,7 +27,7 @@ int mklPardiso(SpMat &A, double* b, double* x) {
   for(int i=0; i<ColInd.size(); i++) ColInd[i] = A.csrColInd[i];
   
   MKL_INT phase=13;
-  //pardiso(pt, &maxfct, &mnum, &mtype, &phase, &n, A.csrVal.data(), RowPtr.data(), ColInd.data(), &perm, &nrhs, iparm, &msglvl, b, x, &error);
+  pardiso(pt, &maxfct, &mnum, &mtype, &phase, &n, A.csrVal.data(), RowPtr.data(), ColInd.data(), &perm, &nrhs, iparm, &msglvl, b, x, &error);
 
   double *df = (double*)malloc(sizeof(double)*n);
   double *da = (double*)malloc(sizeof(double)*n);
